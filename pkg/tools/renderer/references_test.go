@@ -52,3 +52,18 @@ func TestReferencesPlaceholderEmptyOmitted(t *testing.T) {
 		t.Errorf("expected references line to be omitted when citations empty, got:\n%s", result)
 	}
 }
+
+func TestFormatReferencesDegenerate(t *testing.T) {
+	cases := map[string][]*vulnx.Citation{
+		"nil slice":     nil,
+		"empty slice":   {},
+		"nil only":      {nil, nil},
+		"empty URL only": {{URL: ""}, {URL: "", Source: "nvd"}},
+		"nil and empty": {nil, {URL: ""}},
+	}
+	for name, in := range cases {
+		if got := formatReferences(in); got != "" {
+			t.Errorf("%s: expected empty string, got %q", name, got)
+		}
+	}
+}
