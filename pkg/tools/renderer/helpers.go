@@ -275,6 +275,21 @@ func formatPOCs(pocs []*vulnx.POC) []string {
 	return formatted
 }
 
+// formatReferences formats citation URLs for single-line list view (issue #81).
+// Shows up to 2 URLs, then " +N" for the rest. Empty when no citations.
+func formatReferences(citations []*vulnx.Citation) string {
+	if len(citations) == 0 {
+		return ""
+	}
+	urls := make([]string, 0, len(citations))
+	for _, c := range citations {
+		if c != nil && c.URL != "" {
+			urls = append(urls, c.URL)
+		}
+	}
+	return truncateList(urls, 2)
+}
+
 // formatCitations formats citations with sources (wrapped URLs, no tags)
 func formatCitations(citations []*vulnx.Citation) []string {
 	if len(citations) == 0 {

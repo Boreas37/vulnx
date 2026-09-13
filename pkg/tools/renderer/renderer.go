@@ -408,6 +408,9 @@ func extractPlaceholders(entry *Entry) map[string]string {
 	// Tags
 	placeholders["tags"] = truncateList(entry.Tags, 3)
 
+	// References for list view (issue #81)
+	placeholders["references"] = formatReferences(entry.Citations)
+
 	// Security-focused placeholders
 	placeholders["exploit_status"] = getExploitStatus(entry)
 	placeholders["research_priority"] = getResearchPriority(entry)
