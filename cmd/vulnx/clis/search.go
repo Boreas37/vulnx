@@ -76,6 +76,11 @@ var (
 			"line": 6,
 			"format": "  ↳ Template Authors: {authors}",
 			"omit_if": ["authors.length == 0"]
+		},
+		{
+			"line": 7,
+			"format": "  ↳ References: {references}",
+			"omit_if": ["citations.length == 0"]
 		}
 	]`
 
