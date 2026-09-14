@@ -67,3 +67,19 @@ func TestFormatReferencesDegenerate(t *testing.T) {
 		}
 	}
 }
+
+func TestReferencesPlaceholderDegenerateOmitted(t *testing.T) {
+	entries := []*Entry{
+		{DocID: "CVE-2024-0001", Severity: "low", Name: "Nil only", Citations: []*vulnx.Citation{nil, nil}},
+		{DocID: "CVE-2024-0002", Severity: "low", Name: "Empty URL only", Citations: []*vulnx.Citation{{URL: ""}, {URL: "", Source: "nvd"}}},
+	}
+	layout := []LayoutLine{
+		{Line: 7, Format: "  ↳ References: {references}", OmitIf: []string{"citations.length == 0"}},
+	}
+	for _, entry := range entries {
+		result := RenderWithColors([]*Entry{entry}, layout, 1, 1, NoColorConfig())
+		if strings.Contains(result, "References:") {
+			t.Errorf("%s: expected references line to be omitted for unusable citations, got:\n%s", entry.DocID, result)
+		}
+	}
+}

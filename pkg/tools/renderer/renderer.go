@@ -510,7 +510,7 @@ func evaluateCondition(entry *Entry, condition string) bool {
 	case "pocs.length == 0":
 		return len(entry.Pocs) == 0
 	case "citations.length == 0":
-		return len(entry.Citations) == 0
+		return formatReferences(entry.Citations) == ""
 	case "template_uri.empty":
 		return strings.TrimSpace(entry.TemplateURI) == ""
 	case "affected_products.length == 0":
